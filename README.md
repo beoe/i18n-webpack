@@ -1,4 +1,4 @@
-browser-i18n
+i18n-webpack
 ============
 
 Simple tool for i18n in the browser, inspired by 
@@ -37,7 +37,7 @@ with the difference that this script is browser only (not a node.js module).
 </script>
 ```
 
-If you don't provide a locale at instantiation browser-i18n will first try 
+If you don't provide a locale at instantiation i18n-webpack will first try 
 to get locale information from html's lang tag (`<html lang="locale">...</html>`) in case 
 it is not defined locale value will fallback to `en` automatically.
 
@@ -72,11 +72,10 @@ You will have to create a separate locale file for each language. Locale files s
 ```
 
 Mind that you can use [Sprintf](https://github.com/alexei/sprintf.js) syntax in your locale files
-so don't forget checking their documantation to get the most out of browser-i18n
+so don't forget checking their documantation to get the most out of i18n-webpack
 
 ### Dependencies
-1. [JQuery](http://jquery.com/) 
-2. [Sprintf](https://github.com/alexei/sprintf.js)
+1. [Sprintf](https://github.com/alexei/sprintf.js)
 
 ### The MIT License (MIT)
 

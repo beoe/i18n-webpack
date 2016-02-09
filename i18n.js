@@ -1,3 +1,6 @@
+var sprintf = require("sprintf-js").sprintf,
+    vsprintf = require("sprintf-js").vsprintf;
+
 var I18n = function(options){
     for (var prop in options) {
         this[prop] = options[prop];
@@ -12,37 +15,23 @@ I18n.prototype = {
     defaultLocale: "en",
     directory: "/locales",
     extension: ".min.json",
+    localeCache: {}
 
     getLocale: function(){
         return this.locale;
     },
 
     setLocale: function(locale){
-        if(!locale)
-            locale = $("html").attr("lang");
 
-        if(!locale)
-            locale = this.defaultLocale;
+        if(!locale) {
+            if(navigator && navigator.language) locale = navigator.language;
+            else locale = this.defaultLocale;
+        }
 
-        this.locale = locale;
-
-        if(locale in I18n.localeCache) return;
-        else this.getLocaleFileFromServer();
-    },
-
-    getLocaleFileFromServer: function(){
-        localeFile = null;
-
-        $.ajax({
-            url: this.directory + "/" + this.locale + this.extension,
-            async: false,
-            dataType: 'json',
-            success: function(data){
-                localeFile = data;
-            }
-        });
-
-        I18n.localeCache[this.locale] = localeFile;
+        if(locale in I18n.localeCache) {
+            this.locale = locale;
+            return;
+        } else console.warn('I18n: Invalid locale.'); 
     },
 
     __: function(){
@@ -71,3 +60,5 @@ I18n.prototype = {
         return msg;
     }
 };
+
+module.exports = I18n;

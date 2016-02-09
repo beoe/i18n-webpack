@@ -1,0 +1,27 @@
+{
+  "name": "i18n-webpack",
+  "version": "1.0.0",
+  "description": "Fork of browser-i18n, webpack friendly",
+  "main": "i18n.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michalkow/i18n-webpack.git"
+  },
+  "keywords": [
+    "i18n",
+    "browser",
+    "webpack"
+  ],
+  "author": "Michal Kowalkowski",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/michalkow/i18n-webpack/issues"
+  },
+  "homepage": "https://github.com/michalkow/i18n-webpack#readme",
+  "dependencies": {
+    "sprintf-js": "^1.0.3"
+  }
+}
