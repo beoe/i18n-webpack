@@ -1,5 +1,6 @@
 var sprintf = require("sprintf-js").sprintf,
-    vsprintf = require("sprintf-js").vsprintf;
+    vsprintf = require("sprintf-js").vsprintf,
+    $ = require("jquery");
 
 var I18n = function(options){
     for (var prop in options) {
@@ -14,7 +15,7 @@ I18n.localeCache = {};
 I18n.prototype = {
     defaultLocale: "en",
     directory: "/locales",
-    extension: ".min.json";
+    extension: ".min.json",
 
     getLocale: function(){
         return this.locale;
