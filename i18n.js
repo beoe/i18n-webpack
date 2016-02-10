@@ -3,78 +3,100 @@ var sprintf = require("sprintf-js").sprintf,
     $ = require("jquery");
 
 var I18n = function(options){
-    for (var prop in options) {
-        this[prop] = options[prop];
-    };
-
-    this.setLocale(this.locale);
+  for (var prop in options) {
+    this[prop] = options[prop];
+  };
 };
 
 I18n.localeCache = {};
 
 I18n.prototype = {
-    defaultLocale: "en",
-    directory: "/locales",
-    extension: ".min.json",
+  defaultLocale: "en",
+  directory: "/locales",
+  extension: ".json",
 
-    getLocale: function(){
-        return this.locale;
-    },
+  init: function(callback) {
+    this.setLocale(this.locale, callback);
+  },
 
-    setLocale: function(locale){
+  getLocale: function(){
+    return this.locale;
+  },
 
-        if(!locale) {
-            if(navigator && navigator.language) locale = navigator.language;
-            else locale = this.defaultLocale;
-        }
-
-        if(locale in I18n.localeCache) {
-            this.locale = locale;
-            return;
-        } else {
-            this.getLocaleFileFromServer();
-        }
-    },
-    getLocaleFileFromServer: function(){
-        localeFile = null;
-
-        $.ajax({
-            url: this.directory + "/" + this.locale + this.extension,
-            async: false,
-            dataType: 'json',
-            success: function(data){
-                localeFile = data;
-            }
-        });
-
-        I18n.localeCache[this.locale] = localeFile;
-    },
-
-    __: function(){
-        var msg = I18n.localeCache[this.locale][arguments[0]];
-
-        if (arguments.length > 1)
-            msg = vsprintf(msg, Array.prototype.slice.call(arguments, 1));
-
-        return msg;
-    },
-
-    __n: function(singular, count){
-        var msg = I18n.localeCache[this.locale][singular];
-
-        count = parseInt(count, 10);
-        if(count === 0)
-            msg = msg.zero;
-        else
-            msg = count > 1 ? msg.other : msg.one;
-
-        msg = vsprintf(msg, [count]);
-
-        if (arguments.length > 2)
-            msg = vsprintf(msg, Array.prototype.slice.call(arguments, 2));
-
-        return msg;
+  setLocale: function(locale, callback) {
+    if (!locale) {
+      if (navigator && navigator.language) {
+        locale = navigator.language;
+      } else {
+        locale = this.defaultLocale;
+      }
     }
+
+    if (locale in I18n.localeCache) {
+      this.locale = locale;
+      if (callback) {
+        callback();
+      }
+    } else {
+      this.getLocaleFileFromServer(callback);
+    }
+  },
+  getLocaleFileFromServer: function(callback) {
+    localeFile = null;
+
+    var locale = this.locale;
+    $.ajax({
+      url: this.directory + "/" + this.locale + this.extension,
+      async: true,
+      dataType: 'json',
+      success: function(data) {
+        localeFile = data;
+        I18n.localeCache[locale] = localeFile;
+        console.log("done setting localeFile ", I18n.localeCache);
+        if (callback) {
+          console.log("calling callback now");
+          callback();
+        }
+      }
+    });
+  },
+  objPathFromString: function(str) {
+    function index(obj,i) {
+      return obj[i];
+    }
+    return str.split('.').reduce(index, I18n.localeCache[this.locale]);
+  },
+  __: function() {
+    var msg = arguments[0];
+    try {
+      msg = this.objPathFromString(msg);
+    } catch (e) {
+      msg = "?"+arguments[0]+"?";
+    }
+    if (arguments.length > 1) {
+      msg = vsprintf(msg, Array.prototype.slice.call(arguments, 1));
+    }
+    return msg;
+  },
+  __n: function(singular, count) {
+    var msg = singular;
+    try {
+      msg = this.objPathFromString(msg);
+    } catch (e) {
+      msg = "?"+singular+"?";
+    }
+    count = parseInt(count, 10);
+    if (count === 0) {
+      msg = msg.zero;
+    } else {
+      msg = count > 1 ? msg.other : msg.one;
+    }
+    msg = vsprintf(msg, [count]);
+    if (arguments.length > 2) {
+      msg = vsprintf(msg, Array.prototype.slice.call(arguments, 2));
+    }
+    return msg;
+  }
 };
 
 module.exports = I18n;
