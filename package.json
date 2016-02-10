@@ -1,26 +1,26 @@
 {
-  "name": "i18n-webpack",
-  "version": "1.0.0",
-  "description": "Fork of browser-i18n, webpack friendly",
+  "name": "i18n-webpack2",
+  "version": "1.1.0",
+  "description": "Fork of browser-i18n and i18n-webpack, webpack friendly",
   "main": "i18n.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/michalkow/i18n-webpack.git"
+    "url": "git+https://github.com/beoe/i18n-webpack2.git"
   },
   "keywords": [
     "i18n",
     "browser",
     "webpack"
   ],
-  "author": "Michal Kowalkowski",
+  "author": "beoe",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/michalkow/i18n-webpack/issues"
+    "url": "https://github.com/beoe/i18n-webpack2/issues"
   },
-  "homepage": "https://github.com/michalkow/i18n-webpack#readme",
+  "homepage": "https://github.com/beoe/i18n-webpack2#readme",
   "dependencies": {
     "jquery": "^2.2.0",
     "sprintf-js": "^1.0.3"
