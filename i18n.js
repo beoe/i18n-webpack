@@ -14,8 +14,7 @@ I18n.localeCache = {};
 I18n.prototype = {
     defaultLocale: "en",
     directory: "/locales",
-    extension: ".min.json",
-    localeCache: {}
+    extension: ".min.json";
 
     getLocale: function(){
         return this.locale;
@@ -31,7 +30,23 @@ I18n.prototype = {
         if(locale in I18n.localeCache) {
             this.locale = locale;
             return;
-        } else console.warn('I18n: Invalid locale.'); 
+        } else {
+            this.getLocaleFileFromServer();
+        }
+    },
+    getLocaleFileFromServer: function(){
+        localeFile = null;
+
+        $.ajax({
+            url: this.directory + "/" + this.locale + this.extension,
+            async: false,
+            dataType: 'json',
+            success: function(data){
+                localeFile = data;
+            }
+        });
+
+        I18n.localeCache[this.locale] = localeFile;
     },
 
     __: function(){
