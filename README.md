@@ -90,6 +90,7 @@ so don't forget checking their documantation to get the most out of i18n-webpack
 
 ### Dependencies
 1. [Sprintf](https://github.com/alexei/sprintf.js)
+2. jquery (used for XHR)
 
 ### The MIT License (MIT)
 
