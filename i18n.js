@@ -42,12 +42,11 @@ I18n.prototype = {
     }
   },
   getLocaleFileFromServer: function(callback) {
-    localeFile = null;
+    var localeFile = null;
 
     var locale = this.locale;
     $.ajax({
-      url: this.directory + "/" + this.locale + this.extension,
-      async: true,
+      url: this.directory + "/" + this.locale + this.extension + "?_="+Date.now(),
       dataType: 'json',
       success: function(data) {
         localeFile = data;
@@ -67,11 +66,19 @@ I18n.prototype = {
     return str.split('.').reduce(index, I18n.localeCache[this.locale]);
   },
   __: function() {
-    var msg = arguments[0];
-    try {
-      msg = this.objPathFromString(msg);
-    } catch (e) {
-      msg = "?"+arguments[0]+"?";
+    var msg = arguments[0] || '';
+    if (msg.indexOf('.') >= 0) {
+      try {
+        msg = this.objPathFromString(msg);
+      } catch (e) {
+        msg = "FIXME: "+arguments[0];
+      }
+    } else {
+      if (!I18n.localeCache[this.locale][msg]) {
+        msg = "FIXME: "+msg;
+      } else {
+        msg = I18n.localeCache[this.locale][msg];
+      }
     }
     if (arguments.length > 1) {
       msg = vsprintf(msg, Array.prototype.slice.call(arguments, 1));
@@ -83,7 +90,7 @@ I18n.prototype = {
     try {
       msg = this.objPathFromString(msg);
     } catch (e) {
-      msg = "?"+singular+"?";
+      msg = "FIXME: "+singular;
     }
     count = parseInt(count, 10);
     if (count === 0) {
