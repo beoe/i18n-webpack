@@ -32,8 +32,8 @@ I18n.prototype = {
       }
     }
 
+    this.locale = locale;
     if (locale in I18n.localeCache) {
-      this.locale = locale;
       if (callback) {
         callback();
       }
