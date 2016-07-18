@@ -1,11 +1,10 @@
-var sprintf = require("sprintf-js").sprintf,
-    vsprintf = require("sprintf-js").vsprintf,
-    $ = require("jquery");
+var vsprintf = require("sprintf-js").vsprintf,
+  $ = require("jquery");
 
 var I18n = function(options){
   for (var prop in options) {
     this[prop] = options[prop];
-  };
+  }
 };
 
 I18n.localeCache = {};
@@ -53,7 +52,6 @@ I18n.prototype = {
         I18n.localeCache[locale] = localeFile;
         console.log("done setting localeFile ", I18n.localeCache);
         if (callback) {
-          console.log("calling callback now");
           callback();
         }
       }
@@ -71,7 +69,7 @@ I18n.prototype = {
       try {
         msg = this.objPathFromString(msg);
       } catch (e) {
-        msg = "FIXME: "+arguments[0];
+        msg = "_"+arguments[0];
       }
     } else {
       if (!I18n.localeCache[this.locale][msg]) {
