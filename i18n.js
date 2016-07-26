@@ -73,7 +73,7 @@ I18n.prototype = {
       }
     } else {
       if (!I18n.localeCache[this.locale][msg]) {
-        msg = "FIXME: "+msg;
+        msg = "_"+msg;
       } else {
         msg = I18n.localeCache[this.locale][msg];
       }
@@ -88,7 +88,7 @@ I18n.prototype = {
     try {
       msg = this.objPathFromString(msg);
     } catch (e) {
-      msg = "FIXME: "+singular;
+      msg = "_"+singular;
     }
     count = parseInt(count, 10);
     if (count === 0) {
