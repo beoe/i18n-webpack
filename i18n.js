@@ -1,5 +1,4 @@
-var vsprintf = require("sprintf-js").vsprintf,
-  $ = require("jquery");
+var vsprintf = require("sprintf-js").vsprintf;
 
 var I18n = function(options){
   for (var prop in options) {
@@ -44,18 +43,21 @@ I18n.prototype = {
     var localeFile = null;
 
     var locale = this.locale;
-    $.ajax({
-      url: this.directory + "/" + this.locale + this.extension + "?_="+Date.now(),
-      dataType: 'json',
-      success: function(data) {
-        localeFile = data;
+    var request = new XMLHttpRequest();
+    request.open('GET', this.directory + "/" + this.locale +
+        this.extension + "?_="+Date.now(), true);
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400) {
+        localeFile = JSON.parse(request.response);
         I18n.localeCache[locale] = localeFile;
         console.log("done setting localeFile ", I18n.localeCache);
         if (callback) {
           callback();
         }
       }
-    });
+    };
+    request.send();
+    // request.onerror = function() { }
   },
   objPathFromString: function(str) {
     function index(obj,i) {

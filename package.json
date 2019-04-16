@@ -1,6 +1,6 @@
 {
   "name": "i18n-webpack2",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Fork of browser-i18n and i18n-webpack, webpack friendly",
   "main": "i18n.js",
   "scripts": {
@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/beoe/i18n-webpack2#readme",
   "dependencies": {
-    "jquery": "^2.2.0",
     "sprintf-js": "^1.0.3"
   }
 }
